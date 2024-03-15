@@ -1,0 +1,51 @@
+import numpy as np
+
+class NeuralNetwork:
+    def __init__(self, layers):
+        self.layers = layers
+        self.weights = [np.random.randn(layers[i], layers[i+1]) for i in range(len(layers)-1)]
+        self.biases = [np.random.randn(1, layers[i+1]) for i in range(len(layers)-1)]
+        
+    def sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
+    
+    def sigmoid_derivative(self, x):
+        return x * (1 - x)
+    
+    def feedforward(self, x):
+        a = x
+        for w, b in zip(self.weights, self.biases):
+            a = self.sigmoid(np.dot(a, w) + b)
+        return a
+    
+    def train(self, x_train, y_train, learning_rate, epochs):
+        for epoch in range(epochs):
+            for x, y in zip(x_train, y_train):
+                a = x
+                activations = [a]
+                zs = []
+                for w, b in zip(self.weights, self.biases):
+                    z = np.dot(a, w) + b
+                    zs.append(z)
+                    a = self.sigmoid(z)
+                    activations.append(a)
+                delta = (activations[-1] - y) * self.sigmoid_derivative(activations[-1])
+                deltas = [delta]
+                for i in range(len(self.layers)-2, 0, -1):
+                    delta = np.dot(delta, self.weights[i].T) * self.sigmoid_derivative(activations[i])
+                    deltas.append(delta)
+                deltas.reverse()
+                for i in range(len(self.weights)):
+                    self.weights[i] -= learning_rate * np.dot(activations[i].reshape(-1,1), deltas[i])
+                    self.biases[i] -= learning_rate * deltas[i]
+                    
+            if epoch % 100 == 0:
+                loss = np.mean(np.square(y_train - self.feedforward(x_train)))
+                print(f"Epoch {epoch}, Loss: {loss}")
+if __name__ == "__main__":
+    x_train = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    y_train = np.array([[0], [1], [1], [1]])
+    nn = NeuralNetwork([2, 2, 1])
+    nn.train(x_train, y_train, learning_rate=0.1, epochs=1000)
+    for x in x_train:
+        print(f"Input: {x}, Output: {nn.feedforward(x)}")
