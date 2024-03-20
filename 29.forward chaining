@@ -1,0 +1,30 @@
+% Define the rules
+rule(has_fever) :- symptom(fever).
+rule(has_cough) :- symptom(cough).
+rule(has_rash) :- symptom(rash).
+rule(has_headache) :- symptom(headache).
+rule(has_fatigue) :- symptom(fatigue).
+rule(has_joint_pain) :- symptom(joint_pain).
+
+% Define the symptoms
+symptom(fever).
+symptom(cough).
+symptom(rash).
+symptom(headache).
+symptom(fatigue).
+symptom(joint_pain).
+
+% Forward chaining algorithm
+forward_chaining :-
+    repeat,
+    (   rule(Conclusion),
+        \+ fact(Conclusion),
+        assertz(fact(Conclusion)),
+        write('Inferred: '), write(Conclusion), nl,
+        fail
+    ;   !, true
+    ).
+
+% Example queries
+% ?- forward_chaining.
+% ?- fact(has_fever).
