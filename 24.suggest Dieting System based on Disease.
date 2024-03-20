@@ -1,0 +1,23 @@
+% Diet suggestions based on diseases
+diet(sugar_diabetes, ['Avoid sugary foods and drinks.', 'Eat more whole grains.', 'Include fruits and vegetables in your diet.', 'Limit intake of carbohydrates.']).
+diet(high_blood_pressure, ['Limit salt intake.', 'Eat more fruits and vegetables.', 'Choose low-fat dairy products.', 'Reduce consumption of processed foods.']).
+diet(high_cholesterol, ['Choose healthy fats like avocados and nuts.', 'Increase intake of soluble fiber.', 'Limit intake of saturated and trans fats.', 'Include fatty fish in your diet.']).
+diet(obesity, ['Eat smaller portions.', 'Increase consumption of fruits and vegetables.', 'Limit intake of sugary beverages.', 'Engage in regular physical activity.']).
+diet(irritable_bowel_syndrome, ['Eat smaller, more frequent meals.', 'Avoid trigger foods like dairy, caffeine, and spicy foods.', 'Increase fiber intake gradually.', 'Stay hydrated.']).
+diet(heart_disease, ['Choose lean protein sources like poultry and fish.', 'Limit intake of processed meats.', 'Include whole grains in your diet.', 'Limit intake of saturated and trans fats.']).
+diet(none, ['Maintain a balanced diet.', 'Stay hydrated.', 'Engage in regular physical activity.', 'Consult with a healthcare professional for personalized advice.']).
+
+% Query to suggest diet based on disease
+suggest_diet(Disease) :-
+    diet(Disease, Suggestions),
+    write('Diet suggestions for '), write(Disease), write(':'), nl,
+    print_suggestions(Suggestions).
+
+% Helper predicate to print list of suggestions
+print_suggestions([]).
+print_suggestions([H|T]) :-
+    write('- '), write(H), nl,
+    print_suggestions(T).
+
+% Example query:
+% ?- suggest_diet(obesity).
