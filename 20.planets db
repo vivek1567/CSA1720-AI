@@ -1,0 +1,27 @@
+% Facts representing planets and their characteristics
+planet(mercury, rocky, small, closest_to_sun).
+planet(venus, rocky, medium, second_closest_to_sun).
+planet(earth, rocky, medium, third_closest_to_sun).
+planet(mars, rocky, small, fourth_closest_to_sun).
+planet(jupiter, gas_giant, large, fifth_closest_to_sun).
+planet(saturn, gas_giant, large, sixth_closest_to_sun).
+planet(uranus, ice_giant, medium, seventh_closest_to_sun).
+planet(neptune, ice_giant, medium, farthest_from_sun).
+
+% Queries to retrieve information about planets based on characteristics
+rocky_planet(Name) :-
+    planet(Name, rocky, _, _).
+
+gas_giant_planet(Name) :-
+    planet(Name, gas_giant, _, _).
+
+ice_giant_planet(Name) :-
+    planet(Name, ice_giant, _, _).
+
+closest_to_sun(Planet) :-
+    planet(Planet, _, _, closest_to_sun).
+
+% Example queries:
+% ?- rocky_planet(Planet).
+% ?- gas_giant_planet(Planet).
+% ?- closest_to_sun(Planet).
