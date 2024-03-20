@@ -1,0 +1,41 @@
+% Define the graph
+edge(a, b, 3).
+edge(a, c, 6).
+edge(b, d, 2).
+edge(c, d, 7).
+edge(c, e, 5).
+edge(d, e, 4).
+edge(d, f, 3).
+edge(e, g, 5).
+edge(f, g, 6).
+
+% Define heuristic values for nodes (for demonstration purposes)
+heuristic(a, 10).
+heuristic(b, 8).
+heuristic(c, 5).
+heuristic(d, 6).
+heuristic(e, 4).
+heuristic(f, 3).
+heuristic(g, 0).
+
+% best_first_search(Start, Goal, Path) performs Best First Search from Start to Goal and returns Path
+best_first_search(Start, Goal, Path) :-
+    best_first_search(Start, Goal, [Start], 0, Path).
+
+% best_first_search(Current, Goal, Visited, CostSoFar, Path) is a helper predicate for best_first_search
+best_first_search(Current, Current, _, _, [Current]).
+best_first_search(Current, Goal, Visited, _, [Current | Path]) :-
+    Current \= Goal,
+    connected_node(Current, Next, Cost),
+    \+ member(Next, Visited),
+    heuristic(Next, H),
+    best_first_search(Next, Goal, [Next | Visited], H, Path).
+
+% connected_node(Node, Next, Cost) finds the connected node Next from Node with Cost
+connected_node(Node, Next, Cost) :-
+    edge(Node, Next, Cost).
+connected_node(Node, Next, Cost) :-
+    edge(Next, Node, Cost).
+
+% Example query:
+% ?- best_first_search(a, g, Path).
