@@ -1,0 +1,18 @@
+% Facts representing birds and whether they can fly
+bird(canary, true).
+bird(penguin, false).
+bird(eagle, true).
+bird(ostrich, false).
+bird(sparrow, true).
+
+% Query to check if a specific bird can fly
+can_fly(Bird) :-
+    bird(Bird, true),
+    format('~w can fly.~n', [Bird]).
+can_fly(Bird) :-
+    bird(Bird, false),
+    format('~w cannot fly.~n', [Bird]).
+
+% Example queries:
+% ?- can_fly(canary).
+% ?- can_fly(ostrich).
