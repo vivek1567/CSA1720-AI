@@ -1,0 +1,35 @@
+% Initial state: monkey is on the floor, banana is hanging from the ceiling, and chairs are on the floor.
+initial_state(on(floor, monkey), at(chair1, floor), at(chair2, floor), at(banana, ceiling)).
+
+% Actions the monkey can perform
+action(pickup(M), [on(floor, M)], [on(floor, M)], [holding(M)]).
+action(climb, [on(floor, monkey), holding(chair)], [on(floor, monkey)], []).
+action(push(M, C), [on(floor, M), at(C, floor)], [on(floor, M)], [at(C, ceiling)]).
+
+% Goal state: monkey has the banana
+goal_state(on(floor, monkey), holding(banana), _, _).
+
+% Define successor state based on actions
+successor_state(S, A, S1) :-
+    action(A, Precons, Del, Add),
+    subset(Precons, S),            % Check if preconditions are satisfied
+    subtract(S, Del, TempState),   % Remove deleted conditions
+    union(TempState, Add, S1).     % Add new conditions
+
+% Define a predicate to check if a state is a goal state
+goal(S) :- goal_state(S, _, _, _).
+
+% Define a predicate to find a sequence of actions to reach the goal state
+plan(State, Plan) :- plan(State, [], Plan).
+plan(State, _, []) :- goal(State).
+plan(State, History, [Action|Plan]) :-
+    \+ member(State, History),
+    successor_state(State, Action, NextState),
+    plan(NextState, [State|History], Plan).
+
+% Helper predicate to check if a list is a subset of another list
+subset([], _).
+subset([X|Xs], Set) :- member(X, Set), subset(Xs, Set).
+
+% Example usage:
+% ?- initial_state(Monkey, Chair1, Chair2, Banana), plan([Monkey, Chair1, Chair2, Banana], Plan).
