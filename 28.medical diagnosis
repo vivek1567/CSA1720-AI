@@ -1,0 +1,26 @@
+% Symptoms
+symptom(fever).
+symptom(cough).
+symptom(rash).
+symptom(headache).
+symptom(fatigue).
+symptom(joint_pain).
+
+% Diseases and their symptoms
+disease(cold, [fever, cough, fatigue]).
+disease(influenza, [fever, cough, headache, fatigue]).
+disease(measles, [fever, cough, rash]).
+disease(arthritis, [joint_pain, fatigue]).
+disease(migraine, [headache, fatigue]).
+
+% Predicate to diagnose a disease based on symptoms
+diagnose(Disease, Symptoms) :-
+    disease(Disease, DiseaseSymptoms),
+    subset(DiseaseSymptoms, Symptoms).
+
+% Helper predicate to check if a list is a subset of another list
+subset([], _).
+subset([X|Xs], Set) :- member(X, Set), subset(Xs, Set).
+
+% Example usage:
+% ?- diagnose(Disease, [fever, cough, fatigue]).
