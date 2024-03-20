@@ -1,0 +1,23 @@
+% Facts representing individuals with their names and dates of birth (DOB)
+individual('John Smith', '1990-05-15').
+individual('Alice Johnson', '1985-10-20').
+individual('Michael Brown', '1978-03-08').
+individual('Emily Davis', '1995-12-03').
+
+% Query to retrieve the date of birth (DOB) of a person given their name
+date_of_birth(Name, DOB) :-
+    individual(Name, DOB).
+
+% Query to retrieve the list of all individuals with their names and DOBs
+list_individuals :-
+    forall(individual(Name, DOB), (
+        write('Name: '), write(Name), write('\t'),
+        write('DOB: '), write(DOB), nl
+    )).
+
+% Example query
+% ?- date_of_birth('John Smith', DOB).
+% DOB = '1990-05-15'.
+
+% Example query
+% ?- list_individuals.
