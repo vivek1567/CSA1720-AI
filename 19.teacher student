@@ -1,0 +1,19 @@
+% Facts representing relationships between students, teachers, and subjects
+teaches_subject(teacher_a, math).
+teaches_subject(teacher_b, english).
+teaches_subject(teacher_c, science).
+
+% Student relationships with teachers and subjects
+student(teaches_subject(teacher_a, _), student_1).
+student(teaches_subject(teacher_b, _), student_2).
+student(teaches_subject(teacher_b, _), student_3).
+student(teaches_subject(teacher_c, _), student_4).
+student(teaches_subject(teacher_c, _), student_5).
+
+% Rules for querying relationships
+teaches_subject_for_student(Teacher, Subject, Student) :-
+    teaches_subject(Teacher, Subject),
+    student(teaches_subject(Teacher, Subject), Student).
+
+% Example query:
+% ?- teaches_subject_for_student(Teacher, math, Student).
