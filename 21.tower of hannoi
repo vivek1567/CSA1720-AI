@@ -1,0 +1,15 @@
+% Predicates to solve Towers of Hanoi puzzle
+hanoi(N) :-
+    move(N, left, middle, right).
+
+move(1, A, _, C) :-
+    format('Move disk from ~w to ~w~n', [A, C]).
+move(N, A, B, C) :-
+    N > 1,
+    N1 is N - 1,
+    move(N1, A, C, B),
+    move(1, A, _, C),
+    move(N1, B, A, C).
+
+% Example query:
+% ?- hanoi(3).
