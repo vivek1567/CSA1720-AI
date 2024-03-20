@@ -1,0 +1,28 @@
+% Define the rules
+rule(has_flu) :- symptom(fever), symptom(cough), symptom(fatigue).
+rule(has_measles) :- symptom(fever), symptom(cough), symptom(rash).
+rule(has_headache) :- symptom(headache).
+rule(has_joint_pain) :- symptom(joint_pain).
+
+% Define the symptoms
+symptom(fever).
+symptom(cough).
+symptom(rash).
+symptom(headache).
+symptom(fatigue).
+symptom(joint_pain).
+
+% Backward chaining algorithm
+backward_chaining(Goal) :-
+    Goal,
+    write('Goal '), write(Goal), write(' is true.'), nl,
+    !.
+
+backward_chaining(Goal) :-
+    rule(Goal),
+    write('Goal '), write(Goal), write(' is inferred.'), nl,
+    backward_chaining(Goal).
+
+% Example queries
+% ?- backward_chaining(has_flu).
+% ?- backward_chaining(has_headache).
